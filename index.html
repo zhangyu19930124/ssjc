@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=no">
+    <title>赛事竞猜</title>
+    <link href="css/main.css" type="text/css"/>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        html, body {
+            -moz-user-select: none; /*火狐*/
+            -webkit-user-select: none; /*webkit浏览器*/
+            -ms-user-select: none; /*IE10*/
+            -khtml-user-select: none; /*早期浏览器*/
+            user-select: none;
+            width: 100%;
+            height: 100%;
+            background-color: #F2F2F2;
+            overflow-x: hidden;
+            font-family: “微软雅黑”, STXihei, “华文细黑”, “Microsoft YaHei”;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        body {
+            background-image: url("img/guess_bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            /*color: red;*/
+        }
+
+        #playBox {
+            height: 150px;
+            /*background:#333;*/
+            position: relative;
+            overflow: hidden;
+        }
+
+        #playBox .oUlplay {
+            width: 99999px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #playBox .oUlplay > img {
+            width: 100%;
+            height: auto;
+        }
+
+        #playBox .oUlplay li {
+            background-image: url('img/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            position: relative;
+            text-align: center;
+            float: left;
+        }
+
+        #playBox .oUlplay li > div {
+            height: 220px;
+            padding-top: 30px;
+        }
+
+        #playBox .smalltitle {
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            height: 10px;
+            position: absolute;
+            bottom: 20px;
+            z-index: 10;
+        }
+
+        #playBox .smalltitle ul {
+            display: inline-block;
+            margin: 0 auto;
+
+        }
+
+        #playBox .smalltitle ul li {
+            width: 5px;
+            height: 5px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background: gray;
+            float: left;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #playBox .smalltitle .thistitle {
+            background: #ffffff;
+        }
+
+        .title_play {
+            color: #ffffff;
+            line-height: 22px;
+
+        }
+
+        .title_1 {
+            font-size: 16px;
+
+        }
+
+        .title_2 {
+            font-size: 14px;
+        }
+
+        .title_3 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .title_3 > span {
+            display: inline-block;
+            background-color: #4183d7;
+            border-radius: 20px;
+            padding: 5px 15px;
+        }
+
+        .title_3 > span img {
+            float: left;
+            width: 15px;
+            height: auto;
+            margin-top: 3px;
+        }
+
+        .title_3 > span span {
+            padding-left: 5px;
+            float: left;
+            color: #ebf9fc;
+            font-size: 12px;
+        }
+
+        .topt1 {
+            background-color: rgba(0, 0, 0, 0.4);
+            width: 100%;
+            display: inline-block;
+            color: #ffffff;
+            font-size: 12px;
+            padding: 10px 0px 5px 0px;
+        }
+
+        .topt1_left {
+            float: left;
+            padding-left: 10px;
+        }
+
+        .topt1_right {
+            float: right;
+            padding-right: 10px;
+        }
+
+        .topt1_right > span {
+            display: inline-block;
+            line-height: 25px;
+            border: 1px solid #b7b7b7;
+            border-radius: 20px;
+            padding: 2px 10px;
+        }
+
+        .topt1_right > span img {
+            float: left;
+            width: 15px;
+            height: auto;
+            margin-top: 3px;
+        }
+
+        .topt1_right > span span {
+            padding-left: 3px;
+            float: left;
+            color: #b7b7b7;
+            font-size: 12px;
+            line-height: 25px;
+        }
+
+        .topt1_left ul {
+            display: inline-block;
+        }
+
+        .topt1_left ul li {
+            position: relative;
+            float: left;
+            line-height: 30px;
+        }
+
+        .topt1_left ul li img {
+            width: 18px;
+            height: auto;
+        }
+
+        .topt1_li {
+            width: 60px;
+            padding: 0px 5px;
+        }
+
+        .tabtitle {
+            width: 100%;
+            display: inline-block;
+            margin-top: -5px;
+        }
+
+        .tabtitle > div {
+            padding: 15px 0px;
+            float: left;
+            text-align: center;
+            width: 50%;
+        }
+
+        .tabtitle > div div {
+            display: inline-block;
+        }
+
+        .tabtitle > div img {
+            width: 20px;
+            height: auto;
+            float: left;
+        }
+
+        .tabtitle span {
+            color: #ffffff;
+            line-height: 20px;;
+            font-size: 16px;
+            padding-left: 5px;
+            float: left;
+        }
+
+        .activeli {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .activeli1 {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .tabcont {
+            padding: 10px 20px;
+        }
+
+        .tabcont > div {
+
+        }
+
+        .tabguess {
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .tabguess ul {
+            display: inline-block;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .tabguess ul li {
+            float: left;
+            width: 50%;
+            text-align: center;
+            padding: 10px 0px;
+
+        }
+
+        .tabguess ul li div {
+            display: inline-block;
+        }
+
+        .tabguess ul li img {
+            width: 16px;
+            height: auto;
+            float: left;
+        }
+
+        .tabguess ul li span {
+            float: left;
+            line-height: 16px;
+            padding-left: 5px;
+            font-size: 12px;
+            color: #cbd1d7;
+
+        }
+
+        .tabvideo ul li {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            margin: 10px 0px 20px 0px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tabvideo .tabvli{
+           margin: 10px;;
+        }
+
+        .tabvideo1 {
+            display: inline-block;
+            width: 100%;
+            padding: 10px 0px;
+        }
+
+        .tabvideo1 img {
+            float: left;
+            width: 40px;
+            height: auto;
+        }
+
+        .tabvideo1 > div {
+            float: left;
+            padding-left: 5px;
+        }
+
+        .tabname {
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        .tabteam {
+            color: #677598;
+            font-size: 14px;
+        }
+
+        .tabvideo2 {
+            padding: 10px 0px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #cbd1d7;
+        }
+
+        .tabvideo3 {
+            padding: 10px 0px 60px 0px;
+        }
+
+        .tabvideo3 div {
+            color: #fff;
+            font-size: 14px;
+            background-color: #4183d7;
+            text-align: center;
+            border-radius: 20px;
+            padding: 6px 0px;
+        }
+
+        .tabvideo4 {
+            width: 100%;
+            display: inline-block;
+            position: absolute;
+            bottom: 0px;
+            padding: 10px 0px;
+        }
+
+        .tabvideo4 div img {
+            width: 16px;
+            height: auto;
+            float: left;
+
+        }
+
+        .tabvideo4 div > span {
+            display: inline-block;
+        }
+
+        .tabvideo4 div > span > span {
+            float: left;
+            line-height: 16px;
+            padding-left: 5px;
+        }
+
+        .tabvideo4 div {
+            color: #b7b7b7;
+            font-size: 12px;
+            float: left;
+            width: 33.3%;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var w = $("body").width();
+            console.log(w);
+            $("#playBox .oUlplay li div").css("width", w);
+            $('.smalltitle ul li').click(function () {
+                $('.smalltitle ul li').css({'background-color': 'gray'});
+                $(this).css({"background-color": "#ffffff"});
+                $(".oUlplay").animate({"left": -$(this).index() * w}, 500);
+            })
+            var i = -1;
+            var tab = function () {
+                $('.smalltitle ul li').css('background-color', 'gray');
+                $('.smalltitle ul li:eq(' + i + ')').css({"background-color": "#ffffff"});
+                $(".oUlplay").animate({'left': -i * w}, 500);
+            }
+//            $('.next').click(function(){
+//                i++;
+//                if (i<2) {
+//                    tab();
+//                }else{
+//                    i=-1;
+//                }
+//            });
+//            $('.pre').click(function(){
+//                i--;
+//                if (i>-1) {
+//                    tab();
+//                }else{
+//                    i=2;
+//                }
+//
+//            });
+//
+            var timer = setInterval(function () {
+                i++;
+                if (i < 2) {
+                    tab();
+                } else {
+                    i = -1;
+                }
+            }, 1000);
+
+            $("#playBox").mouseout(function (obj) {
+                timer = setInterval(function () {
+                    i++;
+                    if (i < 2) {
+                        tab();
+                    } else {
+                        i = -1;
+                    }
+                }, 1000);
+            })
+            $("#playBox").mouseover(function () {
+                clearInterval(timer);
+            })
+
+        })
+    </script>
+</head>
+<body>
+<div class="content">
+    <div class="topbanner">
+        <div id="playBox">
+            <div class="smalltitle">
+                <ul>
+                    <li class="thistitle"></li>
+                    <li></li>
+                </ul>
+            </div>
+            <ul class="oUlplay">
+                <li>
+                    <div>
+                        <div class="title_play title_1">
+                            CCTV中国房车锦标赛
+                        </div>
+                        <div class="title_play title_2">
+                            2018赛季 上海佘山站
+                        </div>
+                        <div class="title_play title_3">
+                            <span>
+                                <img src="img/icon/icon_guess_active.png">
+                                <span>看直播</span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <div class="title_play title_1">
+                            F1世界一级方程式锦标赛
+                        </div>
+                        <div class="title_play title_2">
+                            巴林国际赛场
+                        </div>
+                        <div class="title_play title_3">
+                            <span>
+                                <img src="img/icon/icon_guess_active.png">
+                                <span>看直播</span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="toptitle">
+        <div class="topt1">
+            <div class="topt1_left">
+                <ul>
+                    <li><img src="img/icon_gold.png"></li>
+                    <li class="topt1_li" style=" line-height: 15px;"><span>我的金币：<p>5000<p></span></li>
+                    <li><img src="img/icon/icon_doubt.png"></li>
+                </ul>
+            </div>
+            <div class="topt1_right">
+                <span>
+                    <img src="img/icon/icon_myGuess.png">
+                    <span style="color: #b7b7b7"><span>我的竞猜</span></span>
+                </span>
+            </div>
+        </div>
+        <div class="topt2"></div>
+    </div>
+    <div class="tabtitle">
+        <div class="tableft activeli">
+            <div><img src="img/icon/icon_guess.png"><span style=" color: #b7b7b7;">有奖竞猜</span></div>
+        </div>
+        <div class="tabright">
+            <div><img src="img/icon/icon_master_active.png"><span>大咖讲解</span></div>
+        </div>
+    </div>
+    <div class="tabcont">
+        <div class="tabguess">
+            <ul>
+                <li class="activeli1">
+                    <div><img src="img/icon/icon_jieshao.png"><span>比赛介绍</span></div>
+                </li>
+                <li class="activeli">
+                    <div><img src="img/icon/icon_saidao.png"><span>赛道介绍</span></div>
+                </li>
+                <li class="activeli">
+                    <div><img src="img/icon/icon_cheshou.png"><span>车队车手</span></div>
+                </li>
+                <li class="activeli1">
+                    <div><img src="img/icon/icon_paihang.png"><span>比赛排行</span></div>
+                </li>
+            </ul>
+        </div>
+        <div class="tabvideo">
+            <ul>
+                <li>
+                    <div class = "tabvli">
+                        <div class="tabvideo1">
+                            <img src="img/headimage.png">
+
+                            <div class="tabvideo11">
+                                <div class="tabname">汉米尔顿</div>
+                                <div class="tabteam">CCTC长安福特车手队员</div>
+                            </div>
+                        </div>
+                        <div class="tabvideo2">
+                            本站长安福特车强人装，势在必得，超级杯组冠军一定是我们的！
+                        </div>
+                        <div class="tabvideo3">
+                            <div>跟随他选择：ABCDA</div>
+                        </div>
+                    </div>
+                    <div class="tabvideo4 activeli1">
+                        <div><span><img src="img/icon/praise.png"><span>12</span></span></div>
+                        <div><span><img src="img/icon/comment.png"><span>评论</span></span></div>
+                        <div><span><img src="img/icon/share.png"><span>130</span></span></div>
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script>
+//    点击大咖讲解
+    $(".tabright").on("click",function(){
+        $(this).children("div").children("img").attr("src","img/icon/icon_master.png");
+        $(this).children("div").children("span").css("color","#b7b7b7");
+        $(this).addClass("activeli");
+        $(".tableft").children("div").children("img").attr("src","img/icon/icon_guess_active.png");
+        $(".tableft").children("div").children("span").css("color","#fff");
+        $(".tableft").removeClass("activeli");
+    });
+    $(".tableft").on("click",function(){
+        $(this).children("div").children("img").attr("src","img/icon/icon_guess.png");
+        $(this).children("div").children("span").css("color","#b7b7b7");
+        $(this).addClass("activeli");
+        $(".tabright").children("div").children("img").attr("src","img/icon/icon_master_active.png");
+        $(".tabright").children("div").children("span").css("color","#fff");
+        $(".tabright").removeClass("activeli");
+    });
+</script>
+</body>
+</html>
